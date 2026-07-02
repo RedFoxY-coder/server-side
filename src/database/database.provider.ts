@@ -8,11 +8,11 @@ export const databaseProviders = [
     useFactory: async () => {
       const sequelize = new Sequelize({
         dialect: 'postgres',
-        host: 'localhost',
+        host: 'postgresql://postgres:eyvQlUVtJYfegqWZpcIRHrOPvYiPfOFh@postgres.railway.internal:5432/railway',
         port: 5432,
         username: 'postgres',
-        password: 'redFoxy23',
-        database: 'memoryCards',
+        password: 'eyvQlUVtJYfegqWZpcIRHrOPvYiPfOFh',
+        database: 'railway',
       });
 
       sequelize.addModels([Card, Stack]);
