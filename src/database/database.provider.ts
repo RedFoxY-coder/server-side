@@ -8,7 +8,7 @@ export const databaseProviders = [
     useFactory: async () => {
       const sequelize = new Sequelize({
         dialect: 'postgres',
-        host: 'postgresql://postgres:eyvQlUVtJYfegqWZpcIRHrOPvYiPfOFh@maglev.proxy.rlwy.net:59723/railway',
+        host: 'postgres.railway.internal',
         port: 5432,
         username: 'postgres',
         password: 'eyvQlUVtJYfegqWZpcIRHrOPvYiPfOFh',
