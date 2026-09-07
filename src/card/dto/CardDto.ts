@@ -4,7 +4,17 @@ export class CreateCardDto {
   frontSide?: string;
   backSide?: string;
   transcription?: string;
+  level: string;
 }
 export class CreateCardDtoWithID extends CreateCardDto {
   stackId: number;
+}
+
+export class UpdateCardDto {
+  stackId: number;
+  level: number
+}
+
+export class ChangeLevelDto {
+  level: string
 }

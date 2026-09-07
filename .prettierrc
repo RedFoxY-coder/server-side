@@ -1,4 +1,12 @@
 {
+  "experimentalTernaries": true,
+  "trailingComma": "es5",
+  "printWidth": 40,
+  "tabWidth": 2,
+  "tabs": true,
+  "quotes": true,
+  "semi": false,
   "singleQuote": true,
-  "trailingComma": "all"
+  "bracketSameLine": true,
+   "plugins": ["prettier-plugin-tailwindcss"]
 }

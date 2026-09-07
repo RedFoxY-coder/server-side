@@ -13,6 +13,6 @@ async function bootstrap() {
       'Content-Type, Authorization,  Access-Control-Allow-Origin, Access-Control-Allow-Credentials',
     credentials: true,
   });
-  await app.listen(process.env.PORT ?? 4200);
+  await app.listen( 4200);
 }
 bootstrap();

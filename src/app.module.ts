@@ -1,14 +1,28 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { CardModule } from './card/card.module';
 import { StackModule } from './stack/stack.module';
 import { ConfigModule } from '@nestjs/config';
-import { DatabaseModule } from './database/database.module';
-import { cardProviders } from './card/card.provider';
+import { UserModule } from './user/user.module';
+import { RoleModule } from './role/role.module';
+import { SequelizeModule } from '@nestjs/sequelize';
+import { Card } from './card/card.entity';
+import { UserRole } from './role/role-user.entity';
+import { Role } from './role/role.entity';
+import { Stack } from './stack/stack.entity';
+import { User } from './user/user.entity';
+import { AuthModule } from './auth/auth.module';
 @Module({
-  imports: [CardModule, StackModule, ConfigModule.forRoot(), DatabaseModule],
-  controllers: [AppController],
-  providers: [AppService, ...cardProviders],
+  imports: [CardModule, StackModule, ConfigModule.forRoot(), UserModule, RoleModule, SequelizeModule.forRoot({
+       dialect: 'postgres',
+        host: 'localhost',
+        port: 5432,
+        username: 'postgres',
+        password: 'redFoxy23',
+        database: 'memoryCards',
+        models: [Card, Stack, User, Role, UserRole],
+         autoLoadModels: true,
+      synchronize: true,
+  }), SequelizeModule.forFeature([Card, Stack, User, Role, UserRole]), AuthModule],
+
 })
 export class AppModule {}

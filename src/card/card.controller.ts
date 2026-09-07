@@ -7,8 +7,9 @@ import {
   Patch,
   Delete,
   Query,
+  ParseIntPipe,
 } from '@nestjs/common';
-import { CreateCardDto } from './dto/CardDto';
+import { ChangeLevelDto, CreateCardDto } from './dto/CardDto';
 import { CardService } from './card.service';
 import { Card } from './card.entity';
 
@@ -18,34 +19,33 @@ export class CardController {
   @Post(':id')
   async createCard(
     @Body() cardData: CreateCardDto,
-    @Param('id') id: string,
+    @Param('id', ParseIntPipe) id: number,
   ): Promise<Card> {
-    console.log(cardData);
     return this.cardService.createCard(cardData, id);
   }
   @Get('/getById/:id')
-  async getCardsByStackId(@Param('id') id: string): Promise<Card[]> {
-    console.log(id);
+  async getCardsByStackId(@Param('id', ParseIntPipe) id: number): Promise<Card[]> {
     return this.cardService.getCardsByStackId(id);
   }
   @Get('/getByLevel/:id')
   async gelByLevel(
-    @Query('level') level: string,
-    @Param('id') id: string,
+    @Query('level', ParseIntPipe) level: number,
+    @Param('id', ParseIntPipe) id: number,
   ): Promise<Card[] | undefined> {
-    console.log(level);
     return this.cardService.getByLevel(id, level);
   }
   @Patch('/changeLevel/:id')
-  async levelUp(@Param('id') id: string, @Query('level') level: string) {
-    return this.cardService.changeLevel(id, level);
+  async changeLevel( @Body() level: ChangeLevelDto, @Param('id', ParseIntPipe) id: number,): Promise<Card | null> {
+    console.log(level)
+    return this.cardService.changeLevel(id, level.level);
   }
   @Delete(':id')
-  async deleteCard(@Param('id') id: string): Promise<Card | null> {
+  async deleteCard(@Param('id', ParseIntPipe) id: number): Promise<Card | null> {
     return this.cardService.deleteCard(id);
   }
   @Patch(':id')
-  async updateCard(@Body() updateData: CreateCardDto, @Param('id') id: string) {
+  async updateCard(@Body() updateData: CreateCardDto, @Param('id', ParseIntPipe) id: number): Promise<Card | null> {
     return this.cardService.updateCard(updateData, id);
   }
+ 
 }
