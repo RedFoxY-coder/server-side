@@ -6,10 +6,10 @@ import { createUserDto } from 'src/user/dto/createUserDto';
 export class AuthController {
  constructor(private authService: AuthService) {}
 
-//  @Post('/login')
-//  async login(@Body() userDto: createUserDto) {
-//     return this.authService.login(userDto)
-//  }
+ @Post('/login')
+ async login(@Body() userDto: createUserDto):  Promise<{token: string}> {
+    return this.authService.login(userDto)
+ }
  @Post('/registration')
  async registration(@Body() userDto: createUserDto): Promise<{token: string}> {
     return this.authService.registration(userDto)

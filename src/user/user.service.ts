@@ -12,11 +12,22 @@ export class UserService {
     private  roleService: RoleService
 ) {}
 
-    async createUser(dto: createUserDto): Promise<User> {
-        const user = await this.userModel.create(dto)
+    async createUser(createUserDto: createUserDto): Promise<User> {
+        if(!createUserDto.email || !createUserDto.password) {
+            throw new HttpException('Email или пароль введены некоректно', HttpStatus.BAD_REQUEST)
+
+        }
+        const user = await this.userModel.create(createUserDto)
         const role = await this.roleService.getRoleByName('user')
-        await user.$set('roles', [role?.id])
-        return user
+    
+        await user.$add('roles', [role?.id])
+        const userWithRoles = await this.userModel.findOne({where: {email: createUserDto.email}, include: {'all' : true}})
+
+        if(!userWithRoles) {
+            throw new HttpException('Ошибка сервера', HttpStatus.INTERNAL_SERVER_ERROR)
+        }
+        console.log(userWithRoles)
+        return userWithRoles
     }
 
     async getAll(): Promise<User[]> {
@@ -24,11 +35,13 @@ export class UserService {
     }
 
     async getById(id: number): Promise<User | null> {
-        return this.userModel.findOne({
+        const user = await this.userModel.findOne({
             where: {
                 id
             }, include: Role
         })
+        console.log(user)
+        return user
     }
 
     async getByEmail(email: string): Promise<User | null> {
@@ -40,7 +53,7 @@ export class UserService {
     }
 
     async addRole(addRoleDto: addRoleDto): Promise<User> {
-        const user = await this.userModel.findByPk(addRoleDto.userId)
+        const user = await this.userModel.findByPk(addRoleDto.userId, {include: {'all' : true}})
         const role = await this.roleService.getRoleByName(addRoleDto.role)
          if(!user || !role) {
             throw new HttpException('Пользователь или роле не найдена', HttpStatus.NOT_FOUND)

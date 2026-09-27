@@ -17,7 +17,7 @@ import { AuthModule } from './auth/auth.module';
         host: 'localhost',
         port: 5432,
         username: 'postgres',
-        password: 'redFoxy23',
+        password: 'redFoxy',
         database: 'memoryCards',
         models: [Card, Stack, User, Role, UserRole],
          autoLoadModels: true,
