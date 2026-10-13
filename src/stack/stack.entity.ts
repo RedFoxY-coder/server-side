@@ -13,18 +13,18 @@ export class Stack extends Model<Stack, StackCreationAttrs> {
     type: DataType.STRING,
     allowNull: false,
   })
-  name: string;
+  declare name: string;
 
   @ForeignKey(() => User)
    @Column({  
     type: DataType.INTEGER,
    
   })
-  userId: number
+  declare userId: number
 
   @BelongsTo(() => User)
-   user: User
+   declare user: User
 
    @HasMany(() => Card)
-   cards: Card[]
+   declare cards: Card[]
 }

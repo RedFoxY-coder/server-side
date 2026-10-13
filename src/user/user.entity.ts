@@ -1,8 +1,9 @@
 
-import { Column, DataType, Table, Model, BelongsToMany, HasMany } from "sequelize-typescript";
+import { Column, DataType, Table, Model, BelongsToMany, HasMany, AllowNull, HasOne } from "sequelize-typescript";
 import { UserRole } from "src/role/role-user.entity";
 import { Role } from "src/role/role.entity";
 import { Stack } from "src/stack/stack.entity";
+import { Token } from "src/token/token.entity";
 
 interface UserCreationAttrs{
     email: string,
@@ -18,17 +19,32 @@ export class User extends Model<User, UserCreationAttrs> {
         unique: true,
         allowNull: false,
     })
-    email: string
+    declare email: string
 
     @Column({
          type: DataType.STRING,
           allowNull: false,
     })
-    password: string
+    declare password: string
+
+    @Column({
+        type: DataType.BOOLEAN,
+    })
+    declare isActivation: boolean
+
+    @Column({
+        type: DataType.STRING
+    })
+    declare activationLink: string
+   
 
     @BelongsToMany(() => Role, () => UserRole)
-    roles: Role[]
+    declare roles: Role[]
 
     @HasMany(() => Stack)
-    stacks: Stack[]
+    declare stacks: Stack[]
+
+    @HasOne(() => Token)
+    declare token: Token
+    
 }

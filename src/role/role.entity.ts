@@ -12,11 +12,11 @@ export class Role extends Model<Role, RoleCreationAttrs> {
     type: DataType.STRING,
     allowNull: false
  })
- role: string;
+ declare role: string;
 
  @Column({
     type: DataType.STRING,
     allowNull: false,
  })
- description: string
+ declare description: string
 }

@@ -1,15 +1,13 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
 import { createUserDto } from 'src/user/dto/createUserDto';
 import { UserService } from 'src/user/user.service';
 import * as bcryptjs from 'bcryptjs'
-import { User } from 'src/user/user.entity';
-import { throws } from 'assert';
+import { TokenService } from 'src/token/token.service';
 @Injectable()
 export class AuthService {
 
     constructor( private userService: UserService,
-        private jwtService: JwtService,
+        private tokenService: TokenService
     ){}
 
     async registration(userDto: createUserDto):  Promise<{token: string}> {
@@ -20,7 +18,7 @@ export class AuthService {
         const hashPassword = await bcryptjs.hash(userDto.password, 5)
 
         const user = await this.userService.createUser({...userDto, password: hashPassword})
-        return this.generateToken(user)
+        return this.tokenService.generateToken({email: user.email, id: user.id, roles: user.roles})
     }
 
     async login(userDto: createUserDto): Promise<{token: string}> {
@@ -33,19 +31,7 @@ export class AuthService {
         if(!checkPassword) {
             throw new HttpException("Неверный пароль", HttpStatus.BAD_REQUEST)
         }
-        return this.generateToken(user)
+        return this.tokenService.generateToken({email: user.email, id: user.id, roles: user.roles})
 
-    }
-
-    
-    async generateToken(user: User): Promise<{token: string}> {
-        const payload = {
-            email: user.dataValues.email,
-            id: user.id,
-            roles: user.dataValues.roles
-        }
-        return {
-            token: this.jwtService.sign(payload)
-        }
     }
 }

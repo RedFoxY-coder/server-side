@@ -1,7 +1,12 @@
 import { Table, Column, Model, DataType, ForeignKey, BelongsTo } from 'sequelize-typescript';
 import { Stack } from 'src/stack/stack.entity';
 
-
+interface CardCreationAttrs {
+  titleEn: string,
+  titleRu: string,
+  level: number,
+  stackId: number
+}
 
 
 @Table({tableName: 'cards'})
@@ -10,42 +15,42 @@ export class Card extends Model {
     type: DataType.STRING,
     allowNull: false,
   })
-  titleEn: string;
+  declare titleEn: string;
 
   @Column({
       type: DataType.STRING,
     allowNull: false,
   })
-  titleRu: string;
+  declare titleRu: string;
 
   @Column({
       type: DataType.STRING,
   })
-  transcription: string;
+  declare transcription: string;
 
   @Column({
       type: DataType.STRING,
   })
-  frontSide: string;
+  declare frontSide: string;
 
   @Column({
       type: DataType.STRING,
   })
-  backSide: string;
+  declare backSide: string;
 
   @Column({
     type: DataType.INTEGER,
     allowNull: false,
     defaultValue: 1,
   })
-  level: number;
+  declare level: number;
 
   @ForeignKey(() => Stack)
   @Column({
     type: DataType.INTEGER
   })
-  stackId: number
+  declare stackId: number
 
   @BelongsTo(() => Stack)
-  stack: Stack
+  declare stack: Stack
 }

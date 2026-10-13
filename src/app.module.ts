@@ -11,18 +11,21 @@ import { Role } from './role/role.entity';
 import { Stack } from './stack/stack.entity';
 import { User } from './user/user.entity';
 import { AuthModule } from './auth/auth.module';
+import { TokenService } from './token/token.service';
+import { TokenModule } from './token/token.module';
+import { Token } from './token/token.entity';
 @Module({
-  imports: [CardModule, StackModule, ConfigModule.forRoot(), UserModule, RoleModule, SequelizeModule.forRoot({
+  imports: [CardModule, StackModule, ConfigModule.forRoot(), UserModule, RoleModule, TokenModule, SequelizeModule.forRoot({
        dialect: 'postgres',
         host: 'localhost',
         port: 5432,
         username: 'postgres',
         password: 'redFoxy',
         database: 'memoryCards',
-        models: [Card, Stack, User, Role, UserRole],
+        models: [Card, Stack, User, Role, UserRole, Token],
          autoLoadModels: true,
       synchronize: true,
-  }), SequelizeModule.forFeature([Card, Stack, User, Role, UserRole]), AuthModule],
+  }), SequelizeModule.forFeature([Card, Stack, User, Role, UserRole, Token]), AuthModule],
 
 })
 export class AppModule {}
